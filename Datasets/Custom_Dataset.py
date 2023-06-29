@@ -19,19 +19,9 @@ class CustomDataset(Dataset):
 
     - filter_array: If not empty, only the images with the indexes in the array will be retained
     '''
-    def __init__(self, type, set, balance=True, filter_array = []):
+    def __init__(self, set_type, set_name, balance, filter_array):
 
-        # Check data validity
-        if type not in ["Generated", "Real Life"]:
-            raise ValueError("Dataset not valid")
-        if set not in ["train", "validation", "test"]:
-            raise ValueError("Set not valid")
-
-        self.type = type
-        self.set = set
-        self.balance = balance
-
-        if self.balance:
+        if balance:
             # Transform to apply to the minibatches for data augmentation
             # Define the transformation to apply
             # Transformations: Random horizontal and vertical flips, halving and doubling the brightness
@@ -52,32 +42,32 @@ class CustomDataset(Dataset):
         # Define the data_path depending on the type of the dataset and the set
         # Note the data path is relative to the file that is calling the dataset class
         # The calls are made in MODEL/MODEL_NAME/Model.py
-        if self.type == "Generated":
+        if set_type == "Generated":
             self.root_path = "../../Datasets/Generated Data/"
-            if self.set == "train":
-                self.data_path = "../../Datasets/Generated Data/train_full_generated_data.json"
-            elif self.set == "validation":
-                self.data_path = "../../Datasets/Generated Data/validation_full_generated_data.json"
+            if set_name == "train":
+                full_data_path = "../../Datasets/Generated Data/train_full_generated_data.json"
+            elif set_name == "validation":
+                full_data_path = "../../Datasets/Generated Data/validation_full_generated_data.json"
             else:
-                self.data_path = "../../Datasets/Generated Data/test_full_generated_data.json"
+                full_data_path = "../../Datasets/Generated Data/test_full_generated_data.json"
         else:
             self.root_path = "../../Datasets/Real Life Data/"
-            if self.set == "train":
-                self.data_path = "../../Datasets/Real Life Data/train_full_real_life_data.json"
-            elif self.set == "validation":
-                self.data_path = "../../Datasets/Real Life Data/validation_full_real_life_data.json"
+            if set_name == "train":
+                full_data_path = "../../Datasets/Real Life Data/train_full_real_life_data.json"
+            elif set_name == "validation":
+                full_data_path = "../../Datasets/Real Life Data/validation_full_real_life_data.json"
             else:
-                self.data_path = "../../Datasets/Real Life Data/test_full_real_life_data.json"
+                full_data_path = "../../Datasets/Real Life Data/test_full_real_life_data.json"
         
         # Load the JSON file
-        with open(self.data_path, "r") as file:
-            self.data = json.load(file)
+        with open(full_data_path, "r") as file:
+            full_data = json.load(file)
         
         # Get the images name form the JSON file 
-        self.images = np.array(self.data[self.set])
+        self.images = np.array(full_data[set_name])
         
         # Get the labels from the JSON file
-        self.labels = self.data["label"]
+        self.labels = full_data["label"]
         self.labels = torch.tensor(self.labels, dtype=torch.long)
 
         # If the retain array is not empty, only retain the images with the indexes in the array
@@ -100,33 +90,44 @@ class CustomDataset(Dataset):
         return image, label
 
 # We can now proceed to defining a function that creates a data loader for both datasets, oversampling the minority classes and applying horizontal flip and blur transformations:
-def get_loader(dataset, batch_size, balance = True):
 
-    # # Because we are using balanced accuracy scores, we can use the class analytics gathered during pre-processing to define the following class distribution array:
-    # class_proportions_gen = np.array([0.3198, 0.1602, 0.0405, 0.0400, 0.0406, 0.0201, 0.0404, 0.1596, 0.0392, 0.0397, 0.0400, 0.0196, 0.0404])
-    if(dataset.type == "Generated"):
-        
-        # Load the class distribution from the JSON file
-        with open("../../Datasets PreProcessing/Data Generation/class_distribution.json", "r") as file:
-            class_proportions = np.array(list(json.load(file)[dataset.set].values()))
-        
-        # Compute the percentages
-        class_proportions = class_proportions / np.sum(class_proportions)
-        
-    else:
-        # Load the class distribution from the JSON file
-        with open("../../Datasets PreProcessing/Real life data/class_distribution.json", "r") as file:
-            class_proportions = np.array(list(json.load(file)[dataset.set].values()))
 
-        # Compute the percentages
-        class_proportions = class_proportions / np.sum(class_proportions)
+def get_loader(set_type, set_name, batch_size, balance=True, filter_array=[]):
 
-    # Define the sampler using class distributions to oversample the minority classes
+    # Check data validity
+    if set_type not in ["Generated", "Real"]:
+        raise ValueError("Dataset not valid")
+    if set_name not in ["train", "validation", "test"]:
+        raise ValueError("Set not valid")
+
+    # Create the dataset
+    dataset = CustomDataset(set_type, set_name, balance, filter_array)
+
+    # If we are using a weighted random sampler (balanced case), we can retrieve the class distribution of the set at hand
     if balance:
+
+        if(type == "Generated"):
+            # Load the class distribution from the JSON file
+            with open("../../Datasets PreProcessing/Data Generation/class_distribution.json", "r") as file:
+                class_proportions = np.array(
+                    list(json.load(file)[set_name].values()))
+            # Compute the percentages
+            class_proportions = class_proportions / np.sum(class_proportions)
+
+        else:
+            # Load the class distribution from the JSON file
+            with open("../../Datasets PreProcessing/Real life data/class_distribution.json", "r") as file:
+                class_proportions = np.array(
+                    list(json.load(file)[set_name].values()))
+            # Compute the percentages
+            class_proportions = class_proportions / np.sum(class_proportions)
+
+        # Define the sampler using class distributions to oversample the minority classes
         class_weights = 1. / torch.tensor(class_proportions, dtype=torch.float) # The weights of the classes
         sample_weights = class_weights[dataset.labels] # Assign each label its corresponding weight
         sampler = torch.utils.data.WeightedRandomSampler(sample_weights, len(dataset), replacement=True)
+
     else:
         sampler = None
         
-    return DataLoader(dataset, batch_size=batch_size, sampler=sampler)
+    return DataLoader(dataset, batch_size=batch_size, sampler=sampler, drop_last=True)

@@ -43,21 +43,21 @@ class CustomDataset(Dataset):
         # Note the data path is relative to the file that is calling the dataset class
         # The calls are made in MODEL/MODEL_NAME/Model.py
         if set_type == "Generated":
-            self.root_path = "../../Datasets/Generated Data/"
+            self.root_path = "../../Datasets/Processed Generated Data.dat/"
             if set_name == "train":
-                full_data_path = "../../Datasets/Generated Data/train_full_generated_data.json"
+                full_data_path = "../../Datasets/Processed Generated Data.dat/train_full_generated_data.json"
             elif set_name == "validation":
-                full_data_path = "../../Datasets/Generated Data/validation_full_generated_data.json"
+                full_data_path = "../../Datasets/Processed Generated Data.dat/validation_full_generated_data.json"
             else:
-                full_data_path = "../../Datasets/Generated Data/test_full_generated_data.json"
+                full_data_path = "../../Datasets/Processed Generated Data.dat/test_full_generated_data.json"
         else:
             self.root_path = "../../Datasets/Real Life Data/"
             if set_name == "train":
-                full_data_path = "../../Datasets/Real Life Data/train_full_real_life_data.json"
+                full_data_path = "../../Datasets/Processed Real Data.dat/train_full_real_life_data.json"
             elif set_name == "validation":
-                full_data_path = "../../Datasets/Real Life Data/validation_full_real_life_data.json"
+                full_data_path = "../../Datasets/Processed Real Data.dat/validation_full_real_life_data.json"
             else:
-                full_data_path = "../../Datasets/Real Life Data/test_full_real_life_data.json"
+                full_data_path = "../../Datasets/Processed Real Data.dat/test_full_real_life_data.json"
         
         # Load the JSON file
         with open(full_data_path, "r") as file:

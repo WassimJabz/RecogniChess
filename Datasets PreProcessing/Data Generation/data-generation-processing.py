@@ -106,10 +106,10 @@ imported_range = max_range - min_range
 y_piece_generated = torch.Tensor(())
 
 # Import the data generated in Data Generation/Data Generated/
-label_folder = os.path.join(os.getcwd(), "Datasets PreProcessing/Data Generation/Data Generated/Labels")
-image_folder = os.path.join(os.getcwd(), "Datasets PreProcessing/Data Generation/Data Generated/Images")
+label_folder = os.path.join(os.getcwd(), "Datasets PreProcessing/Data Generation/Original Generated Data.dat/Labels")
+image_folder = os.path.join(os.getcwd(), "Datasets PreProcessing/Data Generation/Original Generated Data.dat/Images")
 
-save_folder_path = os.path.join(os.getcwd(), "Datasets/Generated Data/")
+save_folder_path = os.path.join(os.getcwd(), "Datasets/Processed Generated Data.dat/")
 
 def convert_label(label_square):
     # Convert the label of the square to a fixed number following this mapping:

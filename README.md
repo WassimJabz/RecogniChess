@@ -6,7 +6,7 @@ A report offering a complete explanation of the approach and the results achieve
 ## Datasets & Copyright
 This repository falls under an MIT license, meaning that all the code and images are free for non-commercial use. Citing the repository and paper in any subsequent work is greatly appreciated. Due to being too large to upload to github, the datasets are available on [this](https://drive.google.com/drive/folders/1B9KRj7lVKPg0xu_1LObeHpQnZCMM65XN?usp=sharing) publicly available drive.
 
-## Getting started instructions
+## Running the code
 * To clone the project, use `git clone --depth 1 https://github.com/WassimJabz/RecogniChess.git`. The depth flag makes this a shallow clone because the history of the project involves commits with the full dataset, making the process extremely slow.
 * Please use "pip install -r requirements.txt" in a virtual environment to install the dependencies required for the project.
 * Since the datasets are too large to upload to GitHub, running the `download_datasets.py` script in the project's root directory is a necessary pre-requisite to running any of the code.

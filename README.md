@@ -4,7 +4,7 @@
 A report offering a complete explanation of the approach and the results achieved can be found [here](https://github.com/WassimJabz/RecogniChess/blob/main/Report.pdf). Slides summarizing the essentials are displayed [here](https://github.com/WassimJabz/RecogniChess/blob/main/Slides.pdf).
 
 ## Datasets & Copyright
-This repository falls under an MIT license, meaning that all the code and images are free for non-commercial use. Citing the repository and paper in any subsequent work is greatly appreciated. Due to being too large to upload to github, the datasets are available on [this](https://drive.google.com/drive/folders/1B9KRj7lVKPg0xu_1LObeHpQnZCMM65XN?usp=sharing) publicly available drive.
+This repository falls under an MIT license, meaning that all the code and images are free for non-commercial use. Citing the repository and paper in any subsequent work is greatly appreciated. Due to being too large to upload to github, the datasets are available on [this](https://drive.google.com/drive/folders/1B9KRj7lVKPg0xu_1LObeHpQnZCMM65XN?usp=sharing) public drive.
 
 ## Running the code
 * To clone the project, use `git clone --depth 1 https://github.com/WassimJabz/RecogniChess.git`. The depth flag makes this a shallow clone because the history of the project involves commits with the full dataset, making the process extremely slow.

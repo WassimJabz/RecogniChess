@@ -1,6 +1,7 @@
 myenv
 venv
-.idea
-CORAL.py
+*.dat
+*.dat.zip
 __pycache__/
 .vscode
+.idea

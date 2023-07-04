@@ -10,7 +10,7 @@ A report offering a complete explanation of the approach and the results achieve
 
 ## Running the code
 * To clone the project, use `git clone https://github.com/WassimJabz/RecogniChess.git`. The depth flag makes this a shallow clone because the history of the project involves commits with the full dataset, making the process extremely slow.
-* Please use "pip install -r requirements.txt" in a virtual environment to install the dependencies required for the project.
+* Please use `pip install -r requirements.txt` in a virtual environment to install the dependencies required for the project.
 * Since the datasets are too large to upload to GitHub, running the `download_datasets.py` script in the project's root directory is a necessary pre-requisite to running any of the code.
 * Please note that the pre-processing pipeline code requires an older version of Numpy, as explained using a comment in the header of `preprocessing_utils.py` under the "Real life data" folder.
 * If you would like to contribute to this project, please run `nbdev_install_hooks` after installing the requirements to ease resolving merge conflicts for jupyter notebooks. This will imply that pulling any changes should be done in the virtual environment where the nbdev library is installed.

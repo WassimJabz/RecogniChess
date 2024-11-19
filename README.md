@@ -1,7 +1,7 @@
 # RecogniChess: An unsupervised domain adaptation approach to chessboard recognition
 
 ## Associated paper
-A paper offering a complete explanation of the approach and the results achieved can be found [here](https://github.com/WassimJabz/RecogniChess/blob/main/Paper.pdf). Slides summarizing the essentials are displayed [here](https://github.com/WassimJabz/RecogniChess/blob/main/Slides.pdf).
+A paper offering a complete explanation of the approach and the results achieved can be found [here](https://arxiv.org/abs/2410.15206). Slides summarizing the essentials are displayed [here](https://github.com/WassimJabz/RecogniChess/blob/main/Slides.pdf).
 
 ## Datasets, copyright, and history.
 * This repository falls under an MIT license, meaning that all the code and images are free for non-commercial use. Citing the repository and paper in any subsequent work is greatly appreciated.
